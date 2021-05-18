@@ -7,6 +7,11 @@ ob_start() ?>
 <div class="col-6">
     <img src="<?= URL ?>public/images/<?= $livre->getImage(); ?>" >
 </div>
+<div class="col-6">
+<p> Titre : <?= $livre->getTitre() ?></p>
+<p> Nombres de pages : <?= $livre->getNbPages() ?></p>
+
+</div>
 
 </div>
 
