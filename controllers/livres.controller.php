@@ -17,6 +17,11 @@ class LivresController {
         require "views/livres.view.php";
     }
 
+    public function afficherLivre($id){
+        $livre = $this->livreManager->getLivreById($id);
+       require "views/afficherLivre.view.php";
+    }
+
 
 }
 

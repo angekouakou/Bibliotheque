@@ -17,7 +17,7 @@ ob_start() ?>
 for ($i=0; $i < count($livres); $i++) : ?>
     <tr>
         <td class="align_middle"><img src="public/images/<?= $livres[$i]->getImage();?>" alt="" width="60px;"></td>
-        <td class="align_middle"><?=$livres[$i]->getTitre();?></td>
+        <td class="align-middle"><a href="<?= URL ?>livres/l/<?= $livres[$i]->getId(); ?>"><?= $livres[$i]->getTitre(); ?></a></td>
         <td class="align_middle"><?=$livres[$i]->getNbPages();?></td>
         <td class="align_middle"><a href="" class="btn btn-warning">Modifier</a></td>
         <td class="align_middle"><a href="" class="btn btn-primary">Supprimer</a></td>

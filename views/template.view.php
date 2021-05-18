@@ -21,12 +21,12 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="accueil">ACCUEIL
+          <a class="nav-link active" href="<?= URL ?>accueil">ACCUEIL
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="livres">LIVRES</a>
+          <a class="nav-link" href="<?= URL ?>livres">LIVRES</a>
         </li>    
       </ul>
     
