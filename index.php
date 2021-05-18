@@ -1,11 +1,19 @@
-<?php 
-require_once"Livreclass.php";
-
-ob_start() ?>
-
-CONTENU PAGE D ACCUEIL
 <?php
-$content =ob_get_clean();
-$titre="MA BIBLIOTHEQUE AK";
-require "template.php";
+
+require_once "controllers/livres.controller.php";
+$livreController = new LivresController();
+
+
+if(empty($_GET['page'])){
+require "views/accueilViews.php";
+} else {
+    switch($_GET['page']){
+        case "accueil": require "views/accueil.view.php";
+        break;
+    }
+    switch($_GET['page']){
+        case "livres": $livreController->afficherLivres();
+        break;
+    }
+}
 ?>
