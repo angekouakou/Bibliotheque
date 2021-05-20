@@ -77,6 +77,7 @@ class LivreManager extends Model{
         $resultat = $stmt->execute();
         $stmt->closeCursor();
 
+        // etablir la coherence entre le tableau et la bdd 
         if($resultat > 0){
             $this->getLivreById($id)->setTitre($titre);
             $this->getLivreById($id)->setTitre($nbPages);

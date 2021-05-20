@@ -1,9 +1,13 @@
 <?php 
+require_once"models/Livre.class.php";
+
 ob_start() ?>
 
- PAGE D ACCUEIL 
+<?= $msg ?>
+
+
 <?php
 $content =ob_get_clean();
-$titre="BIBLIOTHEQUE AK ";
+$titre="Erreur !!! ";
 require "template.view.php";
 ?>
