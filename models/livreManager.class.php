@@ -1,40 +1,86 @@
 <?php
-require_once"models/model.class.php";
-require_once"models/Livre.class.php";
+require_once "Model.class.php";
+require_once "Livre.class.php";
 
 class LivreManager extends Model{
-    private $meslivres; // tableau
-    
+    private $livres;//tableau de Livre
+
     public function ajoutLivre($livre){
-        $this->meslivres[]=$livre;
+        $this->livres[] = $livre;
     }
 
-    public function getLivre(){ return $this->meslivres;}
-
-
+    public function getLivres(){
+        return $this->livres;
+    }
 
     public function chargementLivres(){
-        $req= $this->getBdd()->prepare("SELECT * FROM livre");
+        $req = $this->getBdd()->prepare("SELECT * FROM livre");
         $req->execute();
-        $meslivres=$req->fetchAll(PDO::FETCH_ASSOC);
+        $mesLivres = $req->fetchAll(PDO::FETCH_ASSOC);
         $req->closeCursor();
 
-
-
-        foreach ($meslivres as $livre) {
-        $unLivre= new Livre($livre["id"],$livre["titre"],$livre["nbPages"],$livre["images"]);
-        $this->ajoutLivre($unLivre);
+        foreach($mesLivres as $livre){
+            $l = new Livre($livre['id'],$livre['titre'],$livre['nbPages'],$livre['images']);
+            $this->ajoutLivre($l);
         }
     }
+
     public function getLivreById($id){
-        for ($i=0; $i <(count($this->meslivres)); $i++) { 
-            if($this->meslivres[$i]->getId() === $id){
-                return $this->meslivres[$i];
+        for($i=0; $i < count($this->livres);$i++){
+            if($this->livres[$i]->getId() === $id){
+                return $this->livres[$i];
             }
-        }    }
+        }
+    }
+
+    public function ajoutLivreBd($titre,$nbPages,$image){
+        $req = "
+        INSERT INTO livre (titre, nbPages, images)
+        values (:titre, :nbPages, :images)";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":titre",$titre,PDO::PARAM_STR);
+        $stmt->bindValue(":nbPages",$nbPages,PDO::PARAM_INT);
+        $stmt->bindValue(":images",$image,PDO::PARAM_STR);
+        $resultat = $stmt->execute();
+        $stmt->closeCursor();
+
+        if($resultat > 0){
+            $livre = new Livre($this->getBdd()->lastInsertId(),$titre,$nbPages,$image);
+            $this->ajoutLivre($livre);
+        }        
+    }
+
+    public function suppressionLivreBD($id){
+        $req = "
+        Delete from livre where id = :idLivre
+        ";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":idLivre",$id,PDO::PARAM_INT);
+        $resultat = $stmt->execute();
+        $stmt->closeCursor();
+        if($resultat > 0){
+            $livre = $this->getLivreById($id);
+            unset($livre);
+        }
+    }
+
+    public function modificationLivreBD($id,$titre,$nbPages,$image){
+        $req = "
+        update livre 
+        set titre = :titre, nbPages = :nbPages, images = :images
+        where id = :id";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":id",$id,PDO::PARAM_INT);
+        $stmt->bindValue(":titre",$titre,PDO::PARAM_STR);
+        $stmt->bindValue(":nbPages",$nbPages,PDO::PARAM_INT);
+        $stmt->bindValue(":images",$image,PDO::PARAM_STR);
+        $resultat = $stmt->execute();
+        $stmt->closeCursor();
+
+        if($resultat > 0){
+            $this->getLivreById($id)->setTitre($titre);
+            $this->getLivreById($id)->setTitre($nbPages);
+            $this->getLivreById($id)->setTitre($image);
+        }
+    }
 }
-
-
-
-
-?>

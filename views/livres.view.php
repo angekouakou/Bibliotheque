@@ -19,14 +19,19 @@ for ($i=0; $i < count($livres); $i++) : ?>
         <td class="align_middle"><img src="public/images/<?= $livres[$i]->getImage();?>" alt="" width="60px;"></td>
         <td class="align-middle"><a href="<?= URL ?>livres/l/<?= $livres[$i]->getId(); ?>"><?= $livres[$i]->getTitre(); ?></a></td>
         <td class="align_middle"><?=$livres[$i]->getNbPages();?></td>
-        <td class="align_middle"><a href="" class="btn btn-warning">Modifier</a></td>
-        <td class="align_middle"><a href="" class="btn btn-primary">Supprimer</a></td>
+        <td class="align_middle"><a href="<?= URL ?>livres/modifier/<?= $livres[$i]->getId(); ?>" class="btn btn-warning">Modifier</a></td>
+        <td class="align_middle">
+        <form method="POST" action="<?= URL ?>livres/supprimer/<?= $livres[$i]->getId(); ?>" onSubmit="return confirm('Voulez-vous vraiment supprimer le livre ?');">
+                <button class="btn btn-primary" type="submit">Supprimer</button>
+            </form>
+        
+        </td>
         
     </tr>
  <?php endfor?>
 
 </table>
-<a href="" class="btn btn-success btn-primary btn-lg  ">Ajouter</a>
+<a href="<?= URL ?>livres/ajout" class="btn btn-success btn-primary btn-lg  ">Ajouter</a>
 
 <?php
 $content =ob_get_clean();

@@ -28,12 +28,17 @@ $url = explode("/", filter_var($_GET['page']),FILTER_SANITIZE_URL);
             } else if ($url[1]=== "l"){
                 echo $livreController->afficherLivre($url[2]);
             } else if ($url[1]==="ajout"){
-                echo "ajouter un livre";
-            }else if ($url[1]==="supprimer"){
-                echo "supprimer un livre";
+               $livreController->ajoutLivre();
             }else if ($url[1]==="modifier"){
-                echo "modifier un livre";
-            } else {
+               $livreController->modificationLivre($url[2]);
+             }else if ($url[1]==="supprimer"){
+                $livreController->suppressionLivre($url[2]);
+            }else if ($url[1]==="formajout"){
+                $livreController->ajoutLivreValidation();
+            }else if ($url[1]==="modifform"){
+                $livreController->modificationLivreValidation();
+            }
+             else {
                 throw new Exception("La page n'existe pas ");
             }
 
